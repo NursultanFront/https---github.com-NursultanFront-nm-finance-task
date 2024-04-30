@@ -13,7 +13,7 @@ export class TodoFormService {
     return this.fb.nonNullable.group({
       title: ['', [Validators.required, Validators.maxLength(100)]],
       expirationDate: ['', [Validators.required], [asyncFutureDateValidator()]],
-      expirationTime: ['', [Validators.required, futureTimeValidator()]],
+      expirationTime: ['', [futureTimeValidator()]],
     });
   }
 }

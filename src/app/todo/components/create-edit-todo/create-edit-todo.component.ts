@@ -46,23 +46,13 @@ import { FormFieldErrorsComponent } from '../../../shared/components/errors/form
   ],
   providers: [TodoFormService, provideNativeDateAdapter()],
 })
-export class CreateTodoComponent implements OnInit {
+export class CreateTodoComponent {
   readonly todoForm = this.todoFormService.getTodoFormGroup();
 
   constructor(private readonly todoFormService: TodoFormService) {}
 
   getFormControl(fieldName: string): FormControl {
     return this.todoForm.get(fieldName) as FormControl;
-  }
-
-  ngOnInit(): void {
-    this.getFormControl('expirationTime').valueChanges.subscribe((ress) =>
-      console.log(ress)
-    );
-  }
-
-  ngDoCheck() {
-    this.getFormControl('expirationTime');
   }
 
   onSubmit() {}
