@@ -1,21 +1,12 @@
-
 <ng-container *ngIf="fieldErrors as errors">
-  <span *ngIf="errors['required']">
-    Поле обязательно для заполнения
+  <span *ngIf="errors['required']"> Поле обязательно для заполнения. </span>
+  <span *ngIf="errors['pastDate']"> Дата не может быть в прошлом. </span>
+  <span *ngIf="errors['invalidTime']">
+    Время не может быть ранее текущего времени.
   </span>
-  <span *ngIf="errors['email']">
-    Некорректно заполнено поле
+  <span *ngIf="errors['maxlength']">
+    Заголовок не может быть длиннее
+    {{ errors["maxlength"].requiredLength }} символов (введено
+    {{ errors["maxlength"].actualLength }}).
   </span>
-  <span *ngIf="errors['minlength'] && !errors['pattern']">
-    Недостаточно символов
-  </span>
-  <ng-container [ngSwitch]="errors['pattern']?.requiredPattern">
-    <span *ngSwitchCase="letterPattern">
-      Поле должно содержать только буквы
-    </span>
-    <span *ngSwitchCase= "numberPattern">
-      Поле должно содержать только цифры
-    </span>
-  </ng-container>
 </ng-container>
-

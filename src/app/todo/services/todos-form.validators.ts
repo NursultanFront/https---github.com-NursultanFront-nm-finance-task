@@ -26,7 +26,7 @@ export function futureTimeValidator(): ValidatorFn {
     if (control.value) {
       const inputTime = DateTime.fromISO(control.value);
       if (inputTime < currentTime) {
-        return { invalidTime: 'Время не может быть ранее текущего времени.' };
+        return { invalidTime: true };
       }
     }
 

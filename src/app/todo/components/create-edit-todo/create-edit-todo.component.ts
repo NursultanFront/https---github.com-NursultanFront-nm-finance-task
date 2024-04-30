@@ -1,18 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { TodoFormService } from '../../services/todos-form.service';
 
-import {
-  MatDialogTitle,
-  MatDialogContent,
-  MatDialogActions,
-  MatDialogClose,
-} from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -21,9 +10,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { FormFieldErrorsComponent } from '../../../shared/components/errors/form-field-errors.component';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+
+import { FormFieldErrorsComponent } from '../../../shared/components/errors/form-field-errors.component';
+import { TodoFormService } from '../../services/todos-form.service';
 
 @Component({
   selector: 'app-create-todos',
@@ -57,7 +47,10 @@ export class CreateTodoComponent {
     return this.todoForm.get(fieldName) as FormControl;
   }
 
-  onSubmit() {}
+  onSubmit() {
+    console.log('click');
+    console.log(this.todoForm.value);
+  }
 
   onBackOnFolders() {
     this.router.navigate(['/']);
