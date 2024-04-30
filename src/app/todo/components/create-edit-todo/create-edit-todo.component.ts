@@ -22,6 +22,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { FormFieldErrorsComponent } from '../../../shared/components/errors/form-field-errors.component';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-todos',
@@ -35,10 +37,7 @@ import { FormFieldErrorsComponent } from '../../../shared/components/errors/form
     MatInputModule,
     FormsModule,
     MatButtonModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
+    MatIconModule,
     FormFieldErrorsComponent,
     ReactiveFormsModule,
     MatDatepickerModule,
@@ -49,11 +48,18 @@ import { FormFieldErrorsComponent } from '../../../shared/components/errors/form
 export class CreateTodoComponent {
   readonly todoForm = this.todoFormService.getTodoFormGroup();
 
-  constructor(private readonly todoFormService: TodoFormService) {}
+  constructor(
+    private readonly todoFormService: TodoFormService,
+    private readonly router: Router
+  ) {}
 
   getFormControl(fieldName: string): FormControl {
     return this.todoForm.get(fieldName) as FormControl;
   }
 
   onSubmit() {}
+
+  onBackOnFolders() {
+    this.router.navigate(['/']);
+  }
 }
