@@ -1,0 +1,21 @@
+
+<ng-container *ngIf="fieldErrors as errors">
+  <span *ngIf="errors['required']">
+    Поле обязательно для заполнения
+  </span>
+  <span *ngIf="errors['email']">
+    Некорректно заполнено поле
+  </span>
+  <span *ngIf="errors['minlength'] && !errors['pattern']">
+    Недостаточно символов
+  </span>
+  <ng-container [ngSwitch]="errors['pattern']?.requiredPattern">
+    <span *ngSwitchCase="letterPattern">
+      Поле должно содержать только буквы
+    </span>
+    <span *ngSwitchCase= "numberPattern">
+      Поле должно содержать только цифры
+    </span>
+  </ng-container>
+</ng-container>
+

@@ -1,0 +1,55 @@
+<h1></h1>
+<mat-dialog-content>
+  <form [formGroup]="todoForm">
+    <mat-form-field color="accent" appearance="fill">
+      <mat-label>Title </mat-label>
+      <input
+        type="text"
+        formControlName="name"
+        matInput
+        placeholder=""
+        aria-label="Name"
+      />
+      <mat-error>
+        <app-errors [field]="getFormControl('title')"></app-errors>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field color="accent" appearance="fill">
+      <mat-label>Expiration date </mat-label>
+      <input
+        formControlName="email"
+        type="text"
+        matInput
+        placeholder=""
+        aria-label="Email"
+      />
+      <mat-error>
+        <app-errors [field]="getFormControl('expirationDate')"></app-errors>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field color="accent" appearance="fill">
+      <mat-label>Expiration time </mat-label>
+      <input
+        formControlName="phone"
+        type="text"
+        aria-label="Phone"
+        maxlength="20"
+        matInput
+      />
+      <mat-error>
+        <app-errors [field]="getFormControl('expirationTime')"></app-errors>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close="">Отмена</button>
+  <button
+    mat-button
+    (click)="onSubmit()"
+    [disabled]="todoForm.invalid"
+  ></button>
+</mat-dialog-actions>
