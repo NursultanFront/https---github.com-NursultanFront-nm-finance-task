@@ -3,21 +3,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { CreateEditTodoComponent } from './create-edit-todo.component';
+import { CreateTodoComponent } from './create-edit-todo.component';
 
 describe('CreateEditTodoComponent', () => {
-  let component: CreateEditTodoComponent;
-  let fixture: ComponentFixture<CreateEditTodoComponent>;
+  let component: CreateTodoComponent;
+  let fixture: ComponentFixture<CreateTodoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateEditTodoComponent ]
-    })
-    .compileComponents();
+      declarations: [CreateTodoComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateEditTodoComponent);
+    fixture = TestBed.createComponent(CreateTodoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

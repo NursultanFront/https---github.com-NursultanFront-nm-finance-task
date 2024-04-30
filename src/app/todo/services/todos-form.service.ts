@@ -1,23 +1,19 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import {
+  asyncFutureDateValidator,
+  futureTimeValidator,
+} from './todos-form.validators';
 
 @Injectable()
 export class TodoFormService {
   constructor(private fb: FormBuilder) {}
 
-  futureDateValidator() {
-    return (control: FormControl): { [key: string]: any } | null => {
-      const date = new Date(control.value);
-      const currentDate = new Date();
-      return date >= currentDate ? null : { pastDate: true };
-    };
-  }
-
   getTodoFormGroup() {
-    return this.fb.group({
+    return this.fb.nonNullable.group({
       title: ['', [Validators.required, Validators.maxLength(100)]],
-      expirationDate: ['', Validators.required, this.futureDateValidator()],
-      expirationTime: [''],
+      expirationDate: ['', [Validators.required], [asyncFutureDateValidator()]],
+      expirationTime: ['', [Validators.required, futureTimeValidator()]],
     });
   }
 }
