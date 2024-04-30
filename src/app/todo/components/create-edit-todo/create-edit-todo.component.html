@@ -18,7 +18,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <!-- <mat-form-field appearance="fill">
         <mat-label>Время истечения</mat-label>
         <input
           matInput
@@ -36,7 +36,17 @@
         <mat-error>
           <app-errors [field]="getFormControl('expirationTime')"></app-errors>
         </mat-error>
-      </mat-form-field>
+      </mat-form-field> -->
+
+      <input
+        [ngxMatTimepicker]="timePicker"
+        readonly
+        formControlName="expirationTime"
+        placeholder="Выберите время"
+        aria-label="Expiration Time"
+        [format]="24"
+      />
+      <ngx-mat-timepicker [format]="24" #timePicker></ngx-mat-timepicker>
 
       <mat-form-field appearance="fill">
         <mat-label>Заголовок</mat-label>

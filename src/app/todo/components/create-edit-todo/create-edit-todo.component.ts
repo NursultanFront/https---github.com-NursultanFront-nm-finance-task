@@ -20,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { FormFieldErrorsComponent } from '../../../shared/components/errors/form-field-errors.component';
 
 @Component({
@@ -42,7 +42,7 @@ import { FormFieldErrorsComponent } from '../../../shared/components/errors/form
     FormFieldErrorsComponent,
     ReactiveFormsModule,
     MatDatepickerModule,
-    NgxMaterialTimepickerModule,
+    NgxMatTimepickerModule,
   ],
   providers: [TodoFormService, provideNativeDateAdapter()],
 })

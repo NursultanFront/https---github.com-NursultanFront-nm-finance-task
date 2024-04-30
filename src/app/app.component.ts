@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { RouterOutlet } from '@angular/router';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
+    NgxMatTimepickerModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
