@@ -16,6 +16,9 @@
           aria-label="Expiration Date"
         />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-icon matSuffix (click)="clearField('expirationDate')"
+          >clear</mat-icon
+        >
         <mat-datepicker #picker></mat-datepicker>
         <mat-error>
           <app-errors [field]="getFormControl('expirationDate')"></app-errors>
@@ -33,6 +36,9 @@
           placeholder="Выберите время"
           aria-label="Expiration Time"
         />
+        <mat-icon matSuffix (click)="clearField('expirationTime')"
+          >clear</mat-icon
+        >
         <ngx-material-timepicker
           #timePicker
           [format]="24"
@@ -51,6 +57,9 @@
           placeholder="Введите заголовок"
           aria-label="Title"
         ></textarea>
+        <mat-icon matSuffix (click)="clearField('expirationTime')"
+          >clear</mat-icon
+        >
         <mat-error>
           <app-errors [field]="getFormControl('title')"></app-errors>
         </mat-error>
@@ -59,7 +68,12 @@
   </mat-card-content>
 
   <mat-card-actions align="end">
-    <button mat-raised-button color="primary" [disabled]="todoForm.invalid">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="todoForm.invalid"
+      (click)="onSubmit()"
+    >
       Создать
     </button>
   </mat-card-actions>

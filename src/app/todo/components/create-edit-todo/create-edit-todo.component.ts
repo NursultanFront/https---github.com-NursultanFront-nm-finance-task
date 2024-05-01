@@ -48,11 +48,14 @@ export class CreateTodoComponent {
   }
 
   onSubmit() {
-    console.log('click');
     console.log(this.todoForm.value);
   }
 
   onBackOnFolders() {
     this.router.navigate(['/']);
+  }
+
+  clearField(fieldName: string): void {
+    this.getFormControl(fieldName).reset();
   }
 }
