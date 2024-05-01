@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import {
   asyncFutureDateValidator,
-  futureTimeValidator,
+  timeValidator,
 } from './todos-form.validators';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class TodoFormService {
     return this.fb.nonNullable.group({
       title: ['', [Validators.required, Validators.maxLength(100)]],
       expirationDate: ['', [Validators.required], [asyncFutureDateValidator()]],
-      expirationTime: ['', [futureTimeValidator()]],
+      expirationTime: ['', [timeValidator()]],
     });
   }
 }

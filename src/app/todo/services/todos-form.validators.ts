@@ -19,13 +19,35 @@ export function asyncFutureDateValidator(): AsyncValidatorFn {
   };
 }
 
-export function futureTimeValidator(): ValidatorFn {
+export function timeValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    const currentTime = DateTime.now();
+    const dateControl = control.root.get('expirationDate');
+    if (!dateControl || !dateControl.value || !control.value) {
+      return null;
+    }
 
-    if (control.value) {
-      const inputTime = DateTime.fromISO(control.value);
-      if (inputTime < currentTime) {
+    const currentDate = new Date();
+    const expirationDate = new Date(dateControl.value);
+    const expirationTimeParts = control.value.split(':');
+    const expirationTime = new Date(expirationDate.getTime());
+
+    if (expirationTimeParts.length === 2) {
+      expirationTime.setHours(
+        parseInt(expirationTimeParts[0]),
+        parseInt(expirationTimeParts[1]),
+        0,
+        0
+      );
+    }
+
+    const currentZeroTime = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+
+    if (expirationDate.toDateString() === currentZeroTime.toDateString()) {
+      if (expirationTime < currentDate) {
         return { invalidTime: true };
       }
     }

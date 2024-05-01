@@ -14,6 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { FormFieldErrorsComponent } from '../../../shared/components/errors/form-field-errors.component';
 import { TodoFormService } from '../../services/todos-form.service';
+import { TodoService } from '../../services/todo.service';
+import { TodoItem } from '../../interfaces/todo.interface';
 
 @Component({
   selector: 'app-create-todos',
@@ -39,6 +41,7 @@ export class CreateTodoComponent {
   readonly todoForm = this.todoFormService.getTodoFormGroup();
 
   constructor(
+    private readonly todoSevice: TodoService,
     private readonly todoFormService: TodoFormService,
     private readonly router: Router
   ) {}
@@ -48,7 +51,17 @@ export class CreateTodoComponent {
   }
 
   onSubmit() {
-    console.log(this.todoForm.value);
+    const newTodo: TodoItem = {
+      title: this.getFormControl('title').value,
+      expirationDate: new Date(
+        this.getFormControl('expirationDate').value
+      ).getTime(),
+      createdAt: Date.now(),
+      id: Date.now(),
+      isFavorite: false,
+    };
+
+    this.todoSevice.addTodo(newTodo);
   }
 
   onBackOnFolders() {
