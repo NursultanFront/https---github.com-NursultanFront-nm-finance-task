@@ -11,10 +11,6 @@ export class AsyncLocalStorageService {
   constructor(private storage: StorageMap) {}
 
   setItem<T>(key: string, data: T): Observable<undefined> {
-    console.log(data);
-
-    console.log(key);
-
     return this.storage.set(key, data);
   }
 

@@ -56,12 +56,17 @@ export class CreateTodoComponent {
       expirationDate: new Date(
         this.getFormControl('expirationDate').value
       ).getTime(),
+      expirationTime: this.getFormControl('expirationTime').value,
       createdAt: Date.now(),
       id: Date.now(),
       isFavorite: false,
     };
 
-    this.todoSevice.addTodo(newTodo);
+    this.todoSevice.addTodo(newTodo).subscribe((sucess) => {
+      if (sucess) {
+        this.todoForm.reset();
+      }
+    });
   }
 
   onBackOnFolders() {
