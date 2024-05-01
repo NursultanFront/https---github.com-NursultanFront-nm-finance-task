@@ -71,7 +71,7 @@
     <button
       mat-raised-button
       color="primary"
-      [disabled]="todoForm.invalid"
+      [disabled]="todoForm.invalid || locker.isLocked"
       (click)="onSubmit()"
     >
       Создать

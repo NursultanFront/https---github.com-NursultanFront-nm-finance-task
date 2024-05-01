@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, delay, map, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AsyncLocalStorageService } from '../../core/services/async-local-storage.service';
 
@@ -47,6 +47,7 @@ export class TodoService {
   addTodo(todo: TodoItem): Observable<boolean> {
     this.todos.push(todo);
     return this.storageService.setItem(this.todosKey, this.todos).pipe(
+      delay(3000),
       map(() => true),
       tap(() => {
         this.snackBar.open('Задача успешно добавлена', 'OK', {
@@ -62,16 +63,16 @@ export class TodoService {
     );
   }
 
-  removeTodo(id: number): Observable<boolean | undefined> {
+  removeTodo(id: number): Observable<boolean> {
     this.todos = this.todos.filter((todo) => todo.id !== id);
     return this.storageService.setItem(this.todosKey, this.todos).pipe(
+      delay(3000),
+      map(() => true),
       tap(() => {
-        this.snackBar.open('Задача успешно добавлена', 'OK', {
-          duration: 3000,
-        });
+        this.snackBar.open('Задача успешно удалена', 'OK', { duration: 3000 });
       }),
       catchError((err) => {
-        this.snackBar.open('Ошибка при добавлении задачи', 'OK', {
+        this.snackBar.open('Ошибка при удалении задачи', 'OK', {
           duration: 3000,
         });
         return of(false);

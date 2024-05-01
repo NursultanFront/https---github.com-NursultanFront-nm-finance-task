@@ -16,6 +16,7 @@ import { FormFieldErrorsComponent } from '../../../shared/components/errors/form
 import { TodoFormService } from '../../services/todos-form.service';
 import { TodoService } from '../../services/todo.service';
 import { TodoItem } from '../../interfaces/todo.interface';
+import { Locker } from '../../../core/common/locker';
 
 @Component({
   selector: 'app-create-todos',
@@ -39,6 +40,7 @@ import { TodoItem } from '../../interfaces/todo.interface';
 })
 export class CreateTodoComponent {
   readonly todoForm = this.todoFormService.getTodoFormGroup();
+  public locker = new Locker();
 
   constructor(
     private readonly todoSevice: TodoService,
@@ -62,11 +64,14 @@ export class CreateTodoComponent {
       isFavorite: false,
     };
 
-    this.todoSevice.addTodo(newTodo).subscribe((sucess) => {
-      if (sucess) {
-        this.todoForm.reset();
-      }
-    });
+    this.todoSevice
+      .addTodo(newTodo)
+      .pipe(this.locker.rxPipe())
+      .subscribe((sucess) => {
+        if (sucess) {
+          this.todoForm.reset();
+        }
+      });
   }
 
   onBackOnFolders() {
