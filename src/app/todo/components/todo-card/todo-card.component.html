@@ -9,8 +9,18 @@
     <div class="card__title">
       {{ todo.title }}
     </div>
+
     <div>{{ todo.createdAt | date }}</div>
-    <div>{{ todo.expirationDate | date }}</div>
+    <div>
+      <ng-container *ngIf="isToday; else notToday">
+        <div>
+          {{ todo.expirationTime | countdownTimer | async }}
+        </div>
+      </ng-container>
+      <ng-template #notToday>
+        <div>{{ todo.expirationDate | date }}</div>
+      </ng-template>
+    </div>
     <button
       mat-icon-button
       [color]="todo.isFavorite ? 'warn' : ''"

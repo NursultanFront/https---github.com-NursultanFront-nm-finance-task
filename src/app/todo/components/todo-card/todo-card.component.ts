@@ -6,11 +6,14 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { DateTime } from 'luxon';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { CountdownTimerPipe } from '../../pipes/countdown-timer.pipe';
+
 import { TodoItem } from '../../interfaces/todo.interface';
 import { Locker } from '../../../core/common/locker';
 
@@ -24,6 +27,7 @@ import { Locker } from '../../../core/common/locker';
     MatCheckboxModule,
     MatIconModule,
     MatButtonModule,
+    CountdownTimerPipe,
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +45,16 @@ export class TodoCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  get isToday(): boolean {
+    const now = DateTime.now().startOf('day');
+    const expDate = DateTime.fromMillis(
+      typeof this.todo.expirationDate === 'number'
+        ? this.todo.expirationDate
+        : DateTime.fromISO(this.todo.expirationDate).toMillis()
+    ).startOf('day');
+    return now.equals(expDate);
+  }
 
   public onDeleteTodo() {
     console.log('lolka');
