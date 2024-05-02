@@ -4,6 +4,7 @@ import { map, startWith, takeWhile } from 'rxjs/operators';
 
 @Pipe({
   name: 'countdownTimer',
+  pure: true,
   standalone: true,
 })
 export class CountdownTimerPipe implements PipeTransform {

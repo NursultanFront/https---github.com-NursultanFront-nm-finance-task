@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -11,6 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatIconModule } from '@angular/material/icon';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { FormFieldErrorsComponent } from '../../../shared/components/errors/form-field-errors.component';
 import { TodoFormService } from '../../services/todos-form.service';
@@ -45,7 +46,8 @@ export class CreateTodoComponent {
   constructor(
     private readonly todoSevice: TodoService,
     private readonly todoFormService: TodoFormService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly destroyRef: DestroyRef
   ) {}
 
   getFormControl(fieldName: string): FormControl {
@@ -67,7 +69,7 @@ export class CreateTodoComponent {
 
     this.todoSevice
       .addTodo(newTodo)
-      .pipe(this.locker.rxPipe())
+      .pipe(this.locker.rxPipe(), takeUntilDestroyed(this.destroyRef))
       .subscribe((sucess) => {
         if (sucess) {
           this.todoForm.reset();

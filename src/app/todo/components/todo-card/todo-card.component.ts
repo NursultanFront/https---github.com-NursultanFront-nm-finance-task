@@ -59,7 +59,6 @@ export class TodoCardComponent implements OnInit {
   }
 
   public onDeleteTodo() {
-    console.log('lolka');
     this.deleteItem.emit(this.todo.id);
   }
 
