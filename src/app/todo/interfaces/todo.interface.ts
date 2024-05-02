@@ -5,4 +5,5 @@ export interface TodoItem {
   expirationDate: number;
   expirationTime?: string;
   isFavorite: boolean;
+  done: boolean;
 }

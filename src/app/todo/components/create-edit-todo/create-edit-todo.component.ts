@@ -62,6 +62,7 @@ export class CreateTodoComponent {
       createdAt: Date.now(),
       id: Date.now(),
       isFavorite: false,
+      done: false,
     };
 
     this.todoSevice

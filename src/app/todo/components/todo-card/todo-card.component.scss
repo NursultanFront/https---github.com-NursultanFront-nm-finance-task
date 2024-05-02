@@ -1,0 +1,14 @@
+.card {
+  display: grid;
+  grid-template-columns: min-content auto min-content min-content min-content min-content;
+  align-items: center;
+
+  gap: 10px;
+
+  &__title {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

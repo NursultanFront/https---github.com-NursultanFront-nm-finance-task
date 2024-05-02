@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, delay, map, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AsyncLocalStorageService } from '../../core/services/async-local-storage.service';
@@ -19,6 +19,7 @@ const todoItemSchema = {
       expirationDate: { type: 'number' },
       expirationTime: { type: 'string' },
       isFavorite: { type: 'boolean' },
+      done: { type: 'boolean' },
     },
     required: ['id', 'title', 'createdAt', 'expirationDate', 'isFavorite'],
   },
@@ -27,7 +28,8 @@ const todoItemSchema = {
 @Injectable({ providedIn: 'root' })
 export class TodoService {
   private todosKey = 'todos';
-  public todos: TodoItem[] = [];
+  private todosSubject = new BehaviorSubject<TodoItem[]>([]);
+  public todos$ = this.todosSubject.asObservable(); // Поток задач для подписки
 
   constructor(
     private storageService: AsyncLocalStorageService,
@@ -39,21 +41,26 @@ export class TodoService {
   private loadInitialData(): void {
     this.storageService
       .getItem<TodoItem[]>(this.todosKey, todoItemSchema)
-      .subscribe((todos) => {
-        this.todos = todos || [];
+      .subscribe({
+        next: (todos) => this.todosSubject.next(todos || []),
+        error: (err) =>
+          this.snackBar.open('Ошибка при загрузке задач', 'OK', {
+            duration: 3000,
+          }),
       });
   }
 
   addTodo(todo: TodoItem): Observable<boolean> {
-    this.todos.push(todo);
-    return this.storageService.setItem(this.todosKey, this.todos).pipe(
+    const updatedTodos = [...this.todosSubject.value, todo];
+    return this.storageService.setItem(this.todosKey, updatedTodos).pipe(
       delay(3000),
-      map(() => true),
       tap(() => {
+        this.todosSubject.next(updatedTodos);
         this.snackBar.open('Задача успешно добавлена', 'OK', {
           duration: 3000,
         });
       }),
+      map(() => true),
       catchError((err) => {
         this.snackBar.open('Ошибка при добавлении задачи', 'OK', {
           duration: 3000,
@@ -64,13 +71,16 @@ export class TodoService {
   }
 
   removeTodo(id: number): Observable<boolean> {
-    this.todos = this.todos.filter((todo) => todo.id !== id);
-    return this.storageService.setItem(this.todosKey, this.todos).pipe(
+    const updatedTodos = this.todosSubject.value.filter(
+      (todo) => todo.id !== id
+    );
+    return this.storageService.setItem(this.todosKey, updatedTodos).pipe(
       delay(3000),
-      map(() => true),
       tap(() => {
+        this.todosSubject.next(updatedTodos);
         this.snackBar.open('Задача успешно удалена', 'OK', { duration: 3000 });
       }),
+      map(() => true),
       catchError((err) => {
         this.snackBar.open('Ошибка при удалении задачи', 'OK', {
           duration: 3000,
@@ -81,6 +91,9 @@ export class TodoService {
   }
 
   clearTodos() {
-    this.storageService.clear().subscribe();
+    this.storageService.clear().subscribe(() => {
+      this.todosSubject.next([]);
+      this.snackBar.open('Все задачи удалены', 'OK', { duration: 3000 });
+    });
   }
 }

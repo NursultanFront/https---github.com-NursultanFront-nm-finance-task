@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-content class="card">
+    <mat-checkbox></mat-checkbox>
+    <div class="card__title">
+      {{ todo.title }}
+    </div>
+    <div>{{ todo.createdAt | date }}</div>
+    <div>{{ todo.expirationDate | date }}</div>
+    <button mat-icon-button class="delete_button" #deleteButton>
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button class="delete_button" #deleteButton>
+      <mat-icon>delete</mat-icon>
+    </button></mat-card-content
+  >
+</mat-card>

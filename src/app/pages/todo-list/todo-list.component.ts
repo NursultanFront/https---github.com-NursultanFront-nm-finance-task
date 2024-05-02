@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { TodoListContainerComponent } from '../../todo/components/todo-list-container/todo-list-container.component';
 import { TodoService } from '../../todo/services/todo.service';
+import { TodoItem } from '../../todo/interfaces/todo.interface';
 
 @Component({
   selector: 'app-todo-list',
@@ -10,8 +11,4 @@ import { TodoService } from '../../todo/services/todo.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TodoListComponent {
-  constructor(todoService: TodoService) {
-    console.log(todoService.todos);
-  }
-}
+export class TodoListComponent {}
