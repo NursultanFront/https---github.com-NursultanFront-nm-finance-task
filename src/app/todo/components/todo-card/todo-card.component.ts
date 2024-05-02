@@ -12,10 +12,11 @@ import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { CountdownTimerPipe } from '../../pipes/countdown-timer.pipe';
 
 import { TodoItem } from '../../interfaces/todo.interface';
 import { Locker } from '../../../core/common/locker';
+import { HighlightIfUrgentDirective } from '../../../shared/directives/high-light-if-urgent.directive';
+import { CountdownTimerPipe } from '../../../shared/pipes/countdown-timer.pipe';
 
 @Component({
   selector: 'app-todo-card',
@@ -28,6 +29,7 @@ import { Locker } from '../../../core/common/locker';
     MatIconModule,
     MatButtonModule,
     CountdownTimerPipe,
+    HighlightIfUrgentDirective,
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
