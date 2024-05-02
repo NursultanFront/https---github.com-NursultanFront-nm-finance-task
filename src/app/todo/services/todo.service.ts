@@ -34,11 +34,9 @@ export class TodoService {
   constructor(
     private storageService: AsyncLocalStorageService,
     private snackBar: MatSnackBar
-  ) {
-    this.loadInitialData();
-  }
+  ) {}
 
-  private loadInitialData(): void {
+  public loadInitialData(): void {
     this.storageService
       .getItem<TodoItem[]>(this.todosKey, todoItemSchema)
       .pipe(delay(500))
@@ -152,12 +150,5 @@ export class TodoService {
         return of(false);
       })
     );
-  }
-
-  clearTodos() {
-    this.storageService.clear().subscribe(() => {
-      this.todosSubject.next([]);
-      this.snackBar.open('Все задачи удалены', 'OK', { duration: 3000 });
-    });
   }
 }

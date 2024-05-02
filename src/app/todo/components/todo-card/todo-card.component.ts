@@ -34,7 +34,7 @@ import { CountdownTimerPipe } from '../../../shared/pipes/countdown-timer.pipe';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TodoCardComponent implements OnInit {
+export class TodoCardComponent {
   public readonly locker = new Locker();
 
   @Input({ required: true }) todo!: TodoItem;
@@ -43,10 +43,6 @@ export class TodoCardComponent implements OnInit {
   @Output() deleteItem = new EventEmitter<number>();
   @Output() toggleDone = new EventEmitter<number>();
   @Output() toggleFavorite = new EventEmitter<number>();
-
-  constructor() {}
-
-  ngOnInit() {}
 
   get isToday(): boolean {
     const now = DateTime.now().startOf('day');

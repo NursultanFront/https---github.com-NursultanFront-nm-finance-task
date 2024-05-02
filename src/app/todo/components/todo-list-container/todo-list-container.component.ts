@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -25,29 +19,28 @@ import { ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, TodoCardComponent, MatListModule, MatExpansionModule],
 })
-export class TodoListContainerComponent implements OnInit {
-  public readonly locker = new Locker();
-  public panelOpenState = false;
-  public todayTodos$!: Observable<TodoItem[]>;
+export class TodoListContainerComponent {
+  public todayTodos$: Observable<TodoItem[]> = this.todoService.getTodayTodos();
   public todos$!: Observable<TodoItem[]>;
+
+  public readonly locker = new Locker();
+
+  public panelOpenState = false;
   public isFavoriteView: boolean = false;
 
   constructor(
-    private todoService: TodoService,
-    private route: ActivatedRoute,
+    private readonly todoService: TodoService,
+    private readonly route: ActivatedRoute,
     private readonly destroyRef: DestroyRef
   ) {
-    this.todayTodos$ = this.todoService.getTodayTodos();
+    this.todoService.loadInitialData();
 
     this.route.data.pipe(takeUntilDestroyed()).subscribe((data) => {
       this.isFavoriteView = !!data['favorite'];
 
-      if (this.isFavoriteView) {
-        this.todos$ = this.todoService.getFavoriteTodos();
-        return;
-      }
-
-      this.todos$ = this.todoService.getOtherDayTodos();
+      this.isFavoriteView
+        ? (this.todos$ = this.todoService.getFavoriteTodos())
+        : (this.todos$ = this.todoService.getOtherDayTodos());
     });
   }
 
@@ -71,6 +64,4 @@ export class TodoListContainerComponent implements OnInit {
       .pipe(this.locker.rxPipe(), takeUntilDestroyed(this.destroyRef))
       .subscribe();
   }
-
-  ngOnInit() {}
 }

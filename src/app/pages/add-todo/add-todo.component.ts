@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CreateTodoComponent } from '../../todo/components/create-edit-todo/create-edit-todo.component';
 import { TodoFormService } from '../../todo/services/todos-form.service';
 
@@ -19,6 +13,4 @@ import { TodoFormService } from '../../todo/services/todos-form.service';
   imports: [CommonModule, ReactiveFormsModule, CreateTodoComponent],
   providers: [TodoFormService],
 })
-export class AddTodoComponent implements OnInit {
-  ngOnInit() {}
-}
+export class AddTodoComponent {}
