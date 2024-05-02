@@ -35,6 +35,8 @@ export class TodoCardComponent implements OnInit {
   @Input({ required: true }) isLocked!: boolean;
 
   @Output() deleteItem = new EventEmitter<number>();
+  @Output() toggleDone = new EventEmitter<number>();
+  @Output() toggleFavorite = new EventEmitter<number>();
 
   constructor() {}
 
@@ -43,5 +45,13 @@ export class TodoCardComponent implements OnInit {
   public onDeleteTodo() {
     console.log('lolka');
     this.deleteItem.emit(this.todo.id);
+  }
+
+  public onDoneTodo() {
+    this.toggleDone.emit(this.todo.id);
+  }
+
+  public onFavoriteTodo() {
+    this.toggleFavorite.emit(this.todo.id);
   }
 }

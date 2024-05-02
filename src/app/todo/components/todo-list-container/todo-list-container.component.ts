@@ -33,14 +33,16 @@ export class TodoListContainerComponent implements OnInit {
     this.otherTodos$ = this.todoService.getOtherTodos();
   }
 
-  // public deleteTodo(id: number) {
-  //   console.log(id);
-  //   console.log('sdawds');
-  //   this.todoService.removeTodo(id).subscribe();
-  // }
-
   public handleDeleteItem(id: number): void {
     this.todoService.removeTodo(id).pipe(this.locker.rxPipe()).subscribe();
+  }
+
+  public handleDoneTodo(id: number) {
+    this.todoService.toggleDone(id).pipe(this.locker.rxPipe()).subscribe();
+  }
+
+  public handleFavoriteTodo(id: number) {
+    this.todoService.toggleFavorite(id).pipe(this.locker.rxPipe()).subscribe();
   }
 
   ngOnInit() {}

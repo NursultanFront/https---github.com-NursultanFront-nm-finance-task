@@ -114,6 +114,39 @@ export class TodoService {
     );
   }
 
+  toggleDone(id: number): Observable<boolean> {
+    const updatedTodos = this.todosSubject.value.map((todo) =>
+      todo.id === id ? { ...todo, done: !todo.done } : todo
+    );
+    return this.updateTodos(updatedTodos);
+  }
+
+  toggleFavorite(id: number): Observable<boolean> {
+    const updatedTodos = this.todosSubject.value.map((todo) =>
+      todo.id === id ? { ...todo, isFavorite: !todo.isFavorite } : todo
+    );
+    return this.updateTodos(updatedTodos);
+  }
+
+  private updateTodos(todos: TodoItem[]): Observable<boolean> {
+    return this.storageService.setItem(this.todosKey, todos).pipe(
+      delay(3000),
+      tap(() => {
+        this.todosSubject.next(todos);
+        this.snackBar.open('Задача успешно обновлена', 'OK', {
+          duration: 3000,
+        });
+      }),
+      map(() => true),
+      catchError((err) => {
+        this.snackBar.open('Ошибка при обновлении задачи', 'OK', {
+          duration: 3000,
+        });
+        return of(false);
+      })
+    );
+  }
+
   clearTodos() {
     this.storageService.clear().subscribe(() => {
       this.todosSubject.next([]);

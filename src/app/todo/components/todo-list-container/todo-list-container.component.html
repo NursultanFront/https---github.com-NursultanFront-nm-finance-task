@@ -21,6 +21,8 @@
           [todo]="todo"
           [isLocked]="locker.isLocked"
           (deleteItem)="handleDeleteItem($event)"
+          (toggleDone)="handleDoneTodo($event)"
+          (toggleFavorite)="handleFavoriteTodo($event)"
         ></app-todo-card>
       </mat-list-item>
     </mat-list>
@@ -50,6 +52,8 @@
           [todo]="todo"
           [isLocked]="locker.isLocked"
           (deleteItem)="handleDeleteItem($event)"
+          (toggleDone)="handleDoneTodo($event)"
+          (toggleFavorite)="handleFavoriteTodo($event)"
         ></app-todo-card>
       </mat-list-item>
     </mat-list>

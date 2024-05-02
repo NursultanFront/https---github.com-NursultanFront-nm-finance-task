@@ -1,12 +1,22 @@
-<mat-card>
+<mat-card [style.opacity]="todo.done ? '0.5' : '1'">
   <mat-card-content class="card">
-    <mat-checkbox></mat-checkbox>
+    <mat-checkbox
+      [disabled]="isLocked"
+      [checked]="todo.done"
+      (change)="onDoneTodo()"
+    >
+    </mat-checkbox>
     <div class="card__title">
       {{ todo.title }}
     </div>
     <div>{{ todo.createdAt | date }}</div>
     <div>{{ todo.expirationDate | date }}</div>
-    <button mat-icon-button [color]="todo.isFavorite ? 'warn' : ''">
+    <button
+      mat-icon-button
+      [color]="todo.isFavorite ? 'warn' : ''"
+      [disabled]="isLocked"
+      (click)="onFavoriteTodo()"
+    >
       <mat-icon>favorite</mat-icon>
     </button>
     <button
