@@ -88,6 +88,7 @@ export class CreateTodoComponent implements OnInit {
       .subscribe((sucess) => {
         if (sucess) {
           this.todoForm.reset();
+          this.router.navigate(['/']);
         }
       });
   }
