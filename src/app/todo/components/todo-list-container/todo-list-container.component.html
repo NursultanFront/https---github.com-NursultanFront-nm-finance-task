@@ -1,6 +1,57 @@
-<mat-list role="list">
-  <h1>Здесь</h1>
-  <mat-list-item role="listitem" *ngFor="let todo of todos$ | async">
-    <app-todo-card [todo]="todo"></app-todo-card>
-  </mat-list-item>
-</mat-list>
+<mat-accordion>
+  <mat-expansion-panel
+    (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> Todays Todo </mat-panel-title>
+      <mat-panel-description> </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-list role="list">
+      <div class="card-header">
+        <div></div>
+        <div></div>
+        <div>Created at</div>
+        <div>Time left</div>
+        <div></div>
+        <div></div>
+      </div>
+      <mat-list-item role="listitem" *ngFor="let todo of todayTodos$ | async">
+        <app-todo-card
+          [todo]="todo"
+          [isLocked]="locker.isLocked"
+          (deleteItem)="handleDeleteItem($event)"
+        ></app-todo-card>
+      </mat-list-item>
+    </mat-list>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-accordion>
+  <mat-expansion-panel
+    (opened)="panelOpenState = true"
+    (closed)="panelOpenState = false"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> My Todo List </mat-panel-title>
+      <mat-panel-description> </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-list role="list">
+      <div class="card-header">
+        <div></div>
+        <div></div>
+        <div>Created at</div>
+        <div>Time left</div>
+        <div></div>
+        <div></div>
+      </div>
+      <mat-list-item role="listitem" *ngFor="let todo of otherTodos$ | async">
+        <app-todo-card
+          [todo]="todo"
+          [isLocked]="locker.isLocked"
+          (deleteItem)="handleDeleteItem($event)"
+        ></app-todo-card>
+      </mat-list-item>
+    </mat-list>
+  </mat-expansion-panel>
+</mat-accordion>

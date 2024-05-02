@@ -1,9 +1,9 @@
 .card {
   display: grid;
-  grid-template-columns: min-content auto min-content min-content min-content min-content;
+  grid-template-columns: 40px auto 90px 90px 40px 40px;
   align-items: center;
 
-  gap: 10px;
+  gap: 20px;
 
   &__title {
     width: 100%;
@@ -11,4 +11,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+.mat-mdc-card-content {
+  padding-left: 0;
+  padding-right: 0;
 }

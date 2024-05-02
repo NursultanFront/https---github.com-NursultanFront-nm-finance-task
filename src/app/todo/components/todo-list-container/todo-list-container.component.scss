@@ -1,3 +1,16 @@
-.mat-expansion-panel-body {
-  padding: 0 !important;
+// .mat-expansion-panel-body {
+//   padding: 0 !important;
+// }
+
+.mdc-list-item {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.card-header {
+  display: grid;
+  grid-template-columns: 40px auto 90px 90px 40px 40px;
+  align-items: center;
+
+  gap: 20px;
 }

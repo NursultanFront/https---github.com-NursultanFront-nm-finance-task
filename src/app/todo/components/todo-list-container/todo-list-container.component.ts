@@ -11,6 +11,7 @@ import { TodoCardComponent } from '../todo-card/todo-card.component';
 import { TodoItem } from '../../interfaces/todo.interface';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
+import { Locker } from '../../../core/common/locker';
 
 @Component({
   selector: 'app-todo-list-container',
@@ -22,12 +23,24 @@ import { Observable } from 'rxjs';
   imports: [CommonModule, TodoCardComponent, MatListModule, MatExpansionModule],
 })
 export class TodoListContainerComponent implements OnInit {
-  panelOpenState = false;
-
-  todos$: Observable<TodoItem[]>;
+  public readonly locker = new Locker();
+  public panelOpenState = false;
+  todayTodos$: Observable<TodoItem[]>;
+  otherTodos$: Observable<TodoItem[]>;
 
   constructor(private todoService: TodoService) {
-    this.todos$ = this.todoService.todos$;
+    this.todayTodos$ = this.todoService.getTodayTodos();
+    this.otherTodos$ = this.todoService.getOtherTodos();
+  }
+
+  // public deleteTodo(id: number) {
+  //   console.log(id);
+  //   console.log('sdawds');
+  //   this.todoService.removeTodo(id).subscribe();
+  // }
+
+  public handleDeleteItem(id: number): void {
+    this.todoService.removeTodo(id).pipe(this.locker.rxPipe()).subscribe();
   }
 
   ngOnInit() {}

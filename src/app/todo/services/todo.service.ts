@@ -29,7 +29,7 @@ const todoItemSchema = {
 export class TodoService {
   private todosKey = 'todos';
   private todosSubject = new BehaviorSubject<TodoItem[]>([]);
-  public todos$ = this.todosSubject.asObservable(); // Поток задач для подписки
+  public todos$ = this.todosSubject.asObservable();
 
   constructor(
     private storageService: AsyncLocalStorageService,
@@ -87,6 +87,30 @@ export class TodoService {
         });
         return of(false);
       })
+    );
+  }
+
+  getTodayTodos(): Observable<TodoItem[]> {
+    return this.todos$.pipe(
+      map((todos) =>
+        todos.filter(
+          (todo) =>
+            new Date(todo.expirationDate).toDateString() ===
+            new Date().toDateString()
+        )
+      )
+    );
+  }
+
+  getOtherTodos(): Observable<TodoItem[]> {
+    return this.todos$.pipe(
+      map((todos) =>
+        todos.filter(
+          (todo) =>
+            new Date(todo.expirationDate).toDateString() !==
+            new Date().toDateString()
+        )
+      )
     );
   }
 

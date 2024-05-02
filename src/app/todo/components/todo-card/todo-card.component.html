@@ -6,10 +6,16 @@
     </div>
     <div>{{ todo.createdAt | date }}</div>
     <div>{{ todo.expirationDate | date }}</div>
-    <button mat-icon-button class="delete_button" #deleteButton>
-      <mat-icon>delete</mat-icon>
+    <button mat-icon-button [color]="todo.isFavorite ? 'warn' : ''">
+      <mat-icon>favorite</mat-icon>
     </button>
-    <button mat-icon-button class="delete_button" #deleteButton>
+    <button
+      mat-icon-button
+      class="delete_button"
+      #deleteButton
+      [disabled]="isLocked"
+      (click)="onDeleteTodo()"
+    >
       <mat-icon>delete</mat-icon>
     </button></mat-card-content
   >
