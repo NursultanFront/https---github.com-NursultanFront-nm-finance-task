@@ -41,9 +41,15 @@ export class TodoService {
       .getItem<TodoItem[]>(this.todosKey, todoItemSchema)
       .pipe(delay(500))
       .subscribe({
-        next: (todos) => this.todosSubject.next(todos || []),
+        next: (todos) => {
+          if (todos && todos.length === 0) {
+            this.snackBar.open('Please add tasks', 'OK');
+          }
+
+          this.todosSubject.next(todos || []);
+        },
         error: (err) =>
-          this.snackBar.open('Ошибка при загрузке задач', 'OK', {
+          this.snackBar.open('Error loading tasks', 'OK', {
             duration: 3000,
           }),
       });
@@ -55,13 +61,13 @@ export class TodoService {
       delay(500),
       tap(() => {
         this.todosSubject.next(updatedTodos);
-        this.snackBar.open('Задача успешно добавлена', 'OK', {
+        this.snackBar.open('Task successfully added', 'OK', {
           duration: 3000,
         });
       }),
       map(() => true),
       catchError((err) => {
-        this.snackBar.open('Ошибка при добавлении задачи', 'OK', {
+        this.snackBar.open('Error adding task', 'OK', {
           duration: 3000,
         });
         return of(false);
@@ -77,11 +83,13 @@ export class TodoService {
       delay(500),
       tap(() => {
         this.todosSubject.next(updatedTodos);
-        this.snackBar.open('Задача успешно удалена', 'OK', { duration: 3000 });
+        this.snackBar.open('Task successfully deleted', 'OK', {
+          duration: 3000,
+        });
       }),
       map(() => true),
       catchError((err) => {
-        this.snackBar.open('Ошибка при удалении задачи', 'OK', {
+        this.snackBar.open('Error deleting task', 'OK', {
           duration: 3000,
         });
         return of(false);
@@ -138,13 +146,13 @@ export class TodoService {
       delay(500),
       tap(() => {
         this.todosSubject.next(todos);
-        this.snackBar.open('Задача успешно обновлена', 'OK', {
+        this.snackBar.open('Task successfully updated', 'OK', {
           duration: 3000,
         });
       }),
       map(() => true),
       catchError((err) => {
-        this.snackBar.open('Ошибка при обновлении задачи', 'OK', {
+        this.snackBar.open('Error updating task', 'OK', {
           duration: 3000,
         });
         return of(false);
