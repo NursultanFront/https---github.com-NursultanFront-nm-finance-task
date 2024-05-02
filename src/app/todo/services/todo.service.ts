@@ -41,6 +41,7 @@ export class TodoService {
   private loadInitialData(): void {
     this.storageService
       .getItem<TodoItem[]>(this.todosKey, todoItemSchema)
+      .pipe(delay(500))
       .subscribe({
         next: (todos) => this.todosSubject.next(todos || []),
         error: (err) =>
@@ -53,7 +54,7 @@ export class TodoService {
   addTodo(todo: TodoItem): Observable<boolean> {
     const updatedTodos = [...this.todosSubject.value, todo];
     return this.storageService.setItem(this.todosKey, updatedTodos).pipe(
-      delay(3000),
+      delay(500),
       tap(() => {
         this.todosSubject.next(updatedTodos);
         this.snackBar.open('Задача успешно добавлена', 'OK', {
@@ -75,7 +76,7 @@ export class TodoService {
       (todo) => todo.id !== id
     );
     return this.storageService.setItem(this.todosKey, updatedTodos).pipe(
-      delay(3000),
+      delay(500),
       tap(() => {
         this.todosSubject.next(updatedTodos);
         this.snackBar.open('Задача успешно удалена', 'OK', { duration: 3000 });
@@ -102,7 +103,13 @@ export class TodoService {
     );
   }
 
-  getOtherTodos(): Observable<TodoItem[]> {
+  getFavoriteTodos(): Observable<TodoItem[]> {
+    return this.todos$.pipe(
+      map((todos) => todos.filter((todo) => todo.isFavorite))
+    );
+  }
+
+  getOtherDayTodos(): Observable<TodoItem[]> {
     return this.todos$.pipe(
       map((todos) =>
         todos.filter(
@@ -130,7 +137,7 @@ export class TodoService {
 
   private updateTodos(todos: TodoItem[]): Observable<boolean> {
     return this.storageService.setItem(this.todosKey, todos).pipe(
-      delay(3000),
+      delay(500),
       tap(() => {
         this.todosSubject.next(todos);
         this.snackBar.open('Задача успешно обновлена', 'OK', {

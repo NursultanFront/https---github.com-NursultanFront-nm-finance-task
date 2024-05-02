@@ -12,6 +12,7 @@ import { TodoItem } from '../../interfaces/todo.interface';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Locker } from '../../../core/common/locker';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-todo-list-container',
@@ -25,12 +26,23 @@ import { Locker } from '../../../core/common/locker';
 export class TodoListContainerComponent implements OnInit {
   public readonly locker = new Locker();
   public panelOpenState = false;
-  todayTodos$: Observable<TodoItem[]>;
-  otherTodos$: Observable<TodoItem[]>;
+  public todayTodos$!: Observable<TodoItem[]>;
+  public todos$!: Observable<TodoItem[]>;
+  public isFavoriteView: boolean = false;
 
-  constructor(private todoService: TodoService) {
+  constructor(private todoService: TodoService, private route: ActivatedRoute) {
     this.todayTodos$ = this.todoService.getTodayTodos();
-    this.otherTodos$ = this.todoService.getOtherTodos();
+
+    this.route.data.subscribe((data) => {
+      this.isFavoriteView = !!data['favorite'];
+
+      if (this.isFavoriteView) {
+        this.todos$ = this.todoService.getFavoriteTodos();
+        return;
+      }
+
+      this.todos$ = this.todoService.getOtherDayTodos();
+    });
   }
 
   public handleDeleteItem(id: number): void {
