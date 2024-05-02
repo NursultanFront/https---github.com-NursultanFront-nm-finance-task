@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, DestroyRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -39,7 +44,7 @@ import { Locker } from '../../../core/common/locker';
   ],
   providers: [TodoFormService, provideNativeDateAdapter()],
 })
-export class CreateTodoComponent {
+export class CreateTodoComponent implements OnInit {
   readonly todoForm = this.todoFormService.getTodoFormGroup();
   public locker = new Locker();
 
@@ -50,17 +55,27 @@ export class CreateTodoComponent {
     private readonly destroyRef: DestroyRef
   ) {}
 
+  ngOnInit(): void {
+    this.getFormControl('expirationDate')
+      .valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.getFormControl('expirationTime').reset();
+      });
+  }
+
   getFormControl(fieldName: string): FormControl {
     return this.todoForm.get(fieldName) as FormControl;
   }
 
   onSubmit() {
+    const title = this.getFormControl('title').value;
+    const expirationDate = this.getFormControl('expirationDate').value;
+    const expirationTime = this.getFormControl('expirationTime').value;
+
     const newTodo: TodoItem = {
-      title: this.getFormControl('title').value,
-      expirationDate: new Date(
-        this.getFormControl('expirationDate').value
-      ).getTime(),
-      expirationTime: this.getFormControl('expirationTime').value,
+      title: title,
+      expirationDate: new Date(expirationDate).getTime(),
+      expirationTime: expirationTime,
       createdAt: Date.now(),
       id: Date.now(),
       isFavorite: false,
